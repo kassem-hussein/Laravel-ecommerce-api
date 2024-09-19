@@ -88,6 +88,7 @@ class CategoriesController extends Controller
     public function destroy(string $id)
     {
         $category = Category::find($id);
+        unlink(public_path("/upload/").$category->image);
         if(!$category){
             return response()->json([
                 "message"=>"category not found"
