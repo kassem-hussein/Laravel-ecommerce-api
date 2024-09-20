@@ -5,11 +5,18 @@ namespace App\Http\Controllers;
 class BaseController extends Controller
 {
 
-    public function sendSuccess($message,$result = [],$code = 200){
+    public function sendSuccessWithResult($message,$result = [],$code = 200){
         $response =[
             "success"=>true,
             "message"=>$message,
             "data"=>$result,
+        ];
+        return response()->json($response,$code);
+    }
+    public function sendSuccess($message,$code = 200){
+        $response =[
+            "success"=>true,
+            "message"=>$message,
         ];
         return response()->json($response,$code);
     }

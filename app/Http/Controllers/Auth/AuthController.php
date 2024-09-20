@@ -12,7 +12,7 @@ class AuthController extends BaseController
 {
     public function register(AuthRequest $request){
         User::create($request->all());
-        return $this->sendSuccess("Registeration user successfully",[],201);
+        return $this->sendSuccess("Registeration user successfully",201);
     }
     public function login(AuthRequest $request){
             if(!Auth::attempt($request->all())){
@@ -23,11 +23,11 @@ class AuthController extends BaseController
                 "user"=>$user,
                 "token"=>$user->createToken("API TOKEN")->plainTextToken
             ];
-            return $this->sendSuccess("logged successfully",$result,200);
+            return $this->sendSuccessWithResult("logged successfully",$result,200);
     }
 
     public function profile(){
         $user = request()->user();
-        return $this->sendSuccess("",$user,200);
+        return $this->sendSuccessWithResult("success",$user,200);
     }
 }

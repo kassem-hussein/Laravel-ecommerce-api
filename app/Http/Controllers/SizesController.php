@@ -2,32 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\SizeRequest;
+use App\Models\Size;
 
-class SizesController extends Controller
+class SizesController extends BaseController
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $sizes = Size::query()->paginate(5);
+        return $this->sendSuccessWithResult("success",$sizes,200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SizeRequest $request)
     {
-        //
+        Size::create($request->all());
+        return $this->sendSuccess("Added size successfully",201);
     }
 
     /**
@@ -35,23 +32,26 @@ class SizesController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $size = Size::find($id);
+        if(!$size){
+            return $this->sendError("Not Found",404);
+        }
+        return $this->sendSuccessWithResult("success",$size,200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SizeRequest $request, string $id)
     {
-        //
+        $size = Size::find($id);
+        if(!$size){
+            return $this->sendError("Not Found",404);
+        }
+        $size->update($request->all());
+        return $this->sendSuccess("Updated Size successfully",205);
     }
 
     /**
@@ -59,6 +59,11 @@ class SizesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $size = Size::find($id);
+        if(!$size){
+            return $this->sendError("Not Found",404);
+        }
+        $size->delete();
+        return $this->sendSuccess("deleted Size successfully",205);
     }
 }
