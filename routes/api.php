@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ColorsController;
@@ -34,4 +35,13 @@ Route::controller(BrandController::class)->prefix("/brands")->group(function(){
     Route::get("/{id}","show");
     Route::put("/{id}","update");
     Route::delete("/{id}","destroy");
+});
+
+Route::controller(AuthController::class)->middleware('guest')->group(function(){
+    Route::post("/login","login");
+    Route::post("/register","register");
+});
+
+Route::controller(AuthController::class)->middleware("auth:sanctum")->group(function(){
+    Route::get("/user-profile","profile");
 });
