@@ -17,7 +17,12 @@ return new class extends Migration
             $table->foreignId("color")->constrained("colors")->cascadeOnDelete();
             $table->foreignId("size")->constrained("sizes")->cascadeOnDelete();
             $table->integer("quantity");
-            $table->decimal("price");
+            $table->decimal("price")->nullable()->default(0);
+            $table->unique([
+                "product",
+                "color",
+                "size"
+            ]);
             $table->timestamps();
         });
     }
