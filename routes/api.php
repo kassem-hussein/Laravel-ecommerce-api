@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressesController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoriesController;
@@ -45,6 +46,13 @@ Route::controller(SizesController::class)->prefix("/sizes")->group(function(){
     Route::delete("/{id}","destroy");
 });
 
+Route::controller(AddressesController::class)->middleware("auth:sanctum")->prefix("/addresses")->group(function(){
+    Route::get("/","index");
+    Route::post("/","store");
+    Route::get("/{id}","show");
+    Route::put("/{id}","update");
+    Route::delete("/{id}","destroy");
+});
 Route::controller(AuthController::class)->middleware('guest')->group(function(){
     Route::post("/login","login");
     Route::post("/register","register");

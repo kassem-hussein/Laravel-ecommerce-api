@@ -2,32 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddressRequest;
+use App\Models\Address;
 use Illuminate\Http\Request;
 
-class AddressesController extends Controller
+class AddressesController extends BaseController
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+       $addresses = Address::query()->paginate(5);
+       return $this->sendSuccessWithResult("success",$addresses,200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AddressRequest $request)
     {
-        //
+        Address::create([
+            "address"=>$request->address,
+            "user"=>request()->user()->id,
+        ]);
+        return $this->sendSuccess("Added Address Successfully",201);
     }
 
     /**
@@ -35,23 +36,28 @@ class AddressesController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $address = Address::find($id);
+        if(!$address){
+            return $this->sendError("Not Found",404);
+        }
+        return $this->sendSuccessWithResult("success",$address,200);
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AddressRequest $request, string $id)
     {
-        //
+        $address = Address::find($id);
+        if(!$address){
+            return $this->sendError("Not Found",404);
+        }
+        $address->update([
+            "address"=>$request->address,
+        ]);
+        return $this->sendSuccess("Updated Address Successfully",205);
     }
 
     /**
@@ -59,6 +65,11 @@ class AddressesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $address = Address::find($id);
+        if(!$address){
+            return $this->sendError("Not Found",404);
+        }
+        $address->delete();
+        return $this->sendSuccess("Deleted Address Successfully",204);
     }
 }
