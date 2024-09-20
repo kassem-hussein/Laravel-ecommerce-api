@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId("user")->constrained("users")->cascadeOnDelete();
             $table->foreignId("address")->constrained("addresses")->cascadeOnDelete();
             $table->decimal("subtotal");
-            $table->decimal("tax");
-            $table->decimal("shipping");
-            $table->enum("status",["started","ready","in way","done"]);
+            $table->decimal("tax")->nullable()->default(0);
+            $table->decimal("shipping")->nullable()->default(0);
+            $table->enum("status",["started","ready","in way","done"])->nullable()->default("started");
             $table->timestamps();
         });
     }
