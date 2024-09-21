@@ -4,7 +4,7 @@
 
 ### How can i install it ?
 #### 1 - Clone Repositry 
-    clone here
+    https://github.com/kassem-hussein/Laravel-ecommerce-api.git
 #### 2 - Composer install to intall dependencies 
     composer install
 #### 3 - Setup Your database connection using copy of env.example to .env and change connection setup 
