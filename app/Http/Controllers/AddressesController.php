@@ -17,6 +17,10 @@ class AddressesController extends BaseController
        return $this->sendSuccessWithResult("success",$addresses,200);
     }
 
+    public function getUserAddresses(){
+        $addresses = Address::where("user",request()->user()->id)->paginate(5);
+        return $this->sendSuccessWithResult("success",$addresses,200);
+    }
 
 
     /**

@@ -24,6 +24,10 @@ class OrdersController extends BaseController
        return $this->sendSuccessWithResult("success",$orders,200);
     }
 
+    public function getUserOrders(){
+        $orders =  Order::where("user",request()->user()->id)->paginate(5);
+        return $this->sendSuccessWithResult("success",$orders,200);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -119,7 +123,7 @@ class OrdersController extends BaseController
         $order->delete();
         return $this->sendSuccess("Deleted Order Successfully");
     }
-    public function checkout(String $id){
+    public function checkout(Request $request,String $id){
 
         $order = Order::find($id);
         if(!$order){
