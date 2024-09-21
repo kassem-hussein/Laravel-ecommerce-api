@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal("subtotal");
             $table->decimal("tax")->nullable()->default(0);
             $table->decimal("shipping")->nullable()->default(0);
+            $table->boolean("paid")->default(false);
             $table->enum("status",["started","ready","in way","done"])->nullable()->default("started");
             $table->timestamps();
         });

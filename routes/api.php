@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ColorsController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SizesController;
 use App\Http\Requests\BrandRequest;
@@ -47,6 +48,15 @@ Route::controller(SizesController::class)->prefix("/sizes")->group(function(){
     Route::delete("/{id}","destroy");
 });
 
+Route::controller(OrdersController::class)->prefix("/orders")->group(function(){
+    Route::get("/","index");
+    Route::post("/","store");
+    Route::get("/{id}","show");
+    Route::get("/{id}/checkout","checkout");
+    Route::put("/{id}","updateStatus");
+    Route::delete("/{id}","destroy");
+});
+
 
 Route::controller(ProductsController::class)->prefix("/products")->group(function(){
     Route::get("/","index");
@@ -60,6 +70,9 @@ Route::controller(ProductsController::class)->prefix("/products")->group(functio
     Route::put("/{id}","update");
     Route::delete("/{id}","destroy");
 });
+
+
+
 
 
 Route::controller(AddressesController::class)->middleware("auth:sanctum")->prefix("/addresses")->group(function(){
