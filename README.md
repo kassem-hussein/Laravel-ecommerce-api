@@ -14,7 +14,7 @@
 ### 5 - run server 
     php artisan serve
 
-### Feutues of this API
+### API ENDPOINTS
 ### PRODUCTS RESTFULL
     RESTFULL API  - (USER CAN ACCESS ONLY GET METHOD) 
     GET : /products  -> get All product 
