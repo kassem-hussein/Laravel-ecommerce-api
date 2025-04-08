@@ -14,66 +14,125 @@
 ### 5 - run server 
     php artisan serve
 
-### API ENDPOINTS
-### PRODUCTS RESTFULL
-    RESTFULL API  - (USER CAN ACCESS ONLY GET METHOD) 
-    GET : /products  -> get All product 
-    POST: /Products -> add Product
-    PUT : /products/1 ->get product id= 1
-    DELETE : /products/1 -> delete product 
-### PRODUCT IMAGES
-    Apply to upload mulitple image for single product (USER CAN ACCESS ONLY GET METHOD) 
 
-    GET: products/1/images -> get Product Images
-    POST: products/1/images ->add Product Image
-### Proudct Stock
+# API Documentation
 
-    Apply user to add mulitple stock for single prodoct based on color and size 
-    (USER CAN ACCESS ONLY GET METHOD) 
+This documentation describes the routes available in the application. Each route is grouped by functionality, including user authentication, colors, categories, brands, sizes, orders, products, addresses, and users.
 
-    GET : /products/1/stocks -> get product stock where product id  = 1
-    POST : / products/1/stocks 
-    add product stock where product id = 1
-### colors (Only admin)
-    GET: /colors -> get All colors
-    POST: /colors -> add color
-    PUT : /colors/1 -> update color where id =1
-    DELETE: /colors/1 -> delete color where id = 1
-### Sizes (Only Admin)
-    GET: /sizes ->get All sizes 
-    POST: /sizes -> add size 
-    PUT: /sizes/1 -> update size where id = 1
-    DELETE: /sizes/1 -> delete size where id = 1
-### brands 
-    GET : /brands ->get all brands
-    POST: /brands ->add new brand (only admin) 
-    PUT:  /brands/1-> update brand where id = 1 (only admin)
-    DELETE: /brands/1 -> delete brand where id = 1 (admin only)
-### categories 
-    GET : /categories ->get all categories
-    POST: /categories ->add new category (only admin) 
-    PUT:  /categories/1-> update category where id = 1 (only admin)
-    DELETE: /categories/1 -> delete category where id = 1 (admin only)
-### Orders 
-    GET : /orders ->get All product (only admin)
-    GET : /orders/user -> get all user orders
-    POST : /ordrs -> add Order
-    PUT : /orders/1 -> update order status where id = 1 (only admin)
-    DELETE: /orders/1 delete order  where id = 1 (only admin)
-    POST : orders/1/checkout -> checkout for order where id =1
-### Authentication (Sanctum Tokens)
-    POST : /register 
-    POST : /login -> get api token
-    GET  : /user-profile -> get user profile
+---
 
-### Users (Only for admin)
-    GET : /users -> get all users
-    POST: /users -> add new user
-    GET:/users/1 -> get user where id = 1
-    DELETE: /users/1-> delete user where id = 1
-### User Addresses 
-    GET : /addresses -> get all addresses (only for admin)
-    GET : /addresses/user get all user addresses 
-    POST: /addresses -> add address
-    PUT : /addresses/1 ->  update adderss where id = 1
-    DELETE: /addresses/1 -> delete address where id = 1 
+## **Authentication Routes**
+| Method | Endpoint      | Middleware         | Description            |
+|--------|---------------|--------------------|------------------------|
+| GET    | `/user`       | `auth:sanctum`    | Retrieve the authenticated user's details. |
+| POST   | `/login`      | None              | Login a user.          |
+| POST   | `/register`   | None              | Register a new user.   |
+
+---
+
+## **Colors Routes**
+| Method   | Endpoint           | Middleware              | Description              |
+|----------|--------------------|-------------------------|--------------------------|
+| GET      | `/colors`          | `AdminMiddleware`       | List all colors.         |
+| POST     | `/colors`          | `AdminMiddleware`       | Create a new color.      |
+| GET      | `/colors/{id}`     | `AdminMiddleware`       | Get color details by ID. |
+| PUT      | `/colors/{id}`     | `AdminMiddleware`       | Update color details by ID. |
+| DELETE   | `/colors/{id}`     | `AdminMiddleware`       | Delete a color by ID.    |
+
+---
+
+## **Categories Routes**
+| Method   | Endpoint           | Middleware              | Description              |
+|----------|--------------------|-------------------------|--------------------------|
+| GET      | `/categories`      | None                   | List all categories.     |
+| GET      | `/categories/{id}` | None                   | Get category details by ID. |
+| POST     | `/categories`      | `AdminMiddleware`       | Create a new category.   |
+| PUT      | `/categories/{id}` | `AdminMiddleware`       | Update category details by ID. |
+| DELETE   | `/categories/{id}` | `AdminMiddleware`       | Delete a category by ID. |
+
+---
+
+## **Brands Routes**
+| Method   | Endpoint           | Middleware              | Description              |
+|----------|--------------------|-------------------------|--------------------------|
+| GET      | `/brands`          | None                   | List all brands.         |
+| GET      | `/brands/{id}`     | None                   | Get brand details by ID. |
+| POST     | `/brands`          | `AdminMiddleware`       | Create a new brand.      |
+| PUT      | `/brands/{id}`     | `AdminMiddleware`       | Update brand details by ID. |
+| DELETE   | `/brands/{id}`     | `AdminMiddleware`       | Delete a brand by ID.    |
+
+---
+
+## **Sizes Routes**
+| Method   | Endpoint           | Middleware              | Description              |
+|----------|--------------------|-------------------------|--------------------------|
+| GET      | `/sizes`           | `AdminMiddleware`       | List all sizes.          |
+| POST     | `/sizes`           | `AdminMiddleware`       | Create a new size.       |
+| GET      | `/sizes/{id}`      | `AdminMiddleware`       | Get size details by ID.  |
+| PUT      | `/sizes/{id}`      | `AdminMiddleware`       | Update size details by ID. |
+| DELETE   | `/sizes/{id}`      | `AdminMiddleware`       | Delete a size by ID.     |
+
+---
+
+## **Orders Routes**
+| Method   | Endpoint                 | Middleware              | Description              |
+|----------|--------------------------|-------------------------|--------------------------|
+| POST     | `/orders`                | None                   | Create a new order.      |
+| GET      | `/orders/user`           | None                   | Get orders of the authenticated user. |
+| POST     | `/orders/{id}/checkout`  | None                   | Checkout an order by ID. |
+| GET      | `/orders`                | `AdminMiddleware`       | List all orders.         |
+| GET      | `/orders/{id}`           | `AdminMiddleware`       | Get order details by ID. |
+| PUT      | `/orders/{id}`           | `AdminMiddleware`       | Update order status by ID. |
+| DELETE   | `/orders/{id}`           | `AdminMiddleware`       | Delete an order by ID.   |
+
+---
+
+## **Products Routes**
+| Method   | Endpoint                 | Middleware               | Description                   |
+|----------|--------------------------|--------------------------|-------------------------------|
+| GET      | `/products`              | `OnlyGetMethodMiddleware` | List all products.            |
+| POST     | `/products`              | `OnlyGetMethodMiddleware` | Create a new product.         |
+| DELETE   | `/products/stocks/{id}`  | `OnlyGetMethodMiddleware` | Remove a product stock.       |
+| GET      | `/products/{id}`         | `OnlyGetMethodMiddleware` | Get product details by ID.    |
+| GET      | `/products/{id}/images`  | `OnlyGetMethodMiddleware` | Get product images.           |
+| POST     | `/products/{id}/images`  | `OnlyGetMethodMiddleware` | Add an image to a product.    |
+| GET      | `/products/{id}/stocks`  | `OnlyGetMethodMiddleware` | Get product stocks.           |
+| POST     | `/products/{id}/stocks`  | `OnlyGetMethodMiddleware` | Add a product stock.          |
+| PUT      | `/products/{id}`         | `OnlyGetMethodMiddleware` | Update product details by ID. |
+| DELETE   | `/products/{id}`         | `OnlyGetMethodMiddleware` | Delete a product by ID.       |
+
+---
+
+## **Addresses Routes**
+| Method   | Endpoint           | Middleware              | Description              |
+|----------|--------------------|-------------------------|--------------------------|
+| GET      | `/addresses/user`  | None                   | Get addresses of the authenticated user. |
+| GET      | `/addresses`       | `AdminMiddleware`       | List all addresses.      |
+| POST     | `/addresses`       | `AdminMiddleware`       | Create a new address.    |
+| GET      | `/addresses/{id}`  | `AdminMiddleware`       | Get address details by ID. |
+| PUT      | `/addresses/{id}`  | `AdminMiddleware`       | Update address details by ID. |
+| DELETE   | `/addresses/{id}`  | `AdminMiddleware`       | Delete an address by ID. |
+
+---
+
+## **Users Routes**
+| Method   | Endpoint           | Middleware              | Description              |
+|----------|--------------------|-------------------------|--------------------------|
+| GET      | `/users`           | `AdminMiddleware`       | List all users.          |
+| POST     | `/users`           | `AdminMiddleware`       | Create a new user.       |
+| GET      | `/users/{id}`      | `AdminMiddleware`       | Get user details by ID.  |
+| DELETE   | `/users/{id}`      | `AdminMiddleware`       | Delete a user by ID.     |
+
+---
+
+## **Additional Routes**
+| Method   | Endpoint          | Middleware         | Description                |
+|----------|-------------------|--------------------|----------------------------|
+| GET      | `/user-profile`   | None              | Retrieve user profile details. |
+
+---
+
+## Notes
+1. Use `auth:sanctum` middleware for authentication.
+2. Replace `{id}` and other placeholders with actual IDs.
+3. Admin-specific actions require `AdminMiddleware`.
